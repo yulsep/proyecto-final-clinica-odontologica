@@ -3,6 +3,8 @@ package dh.backend.proyecto_final_clinica_odontologica.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,4 +17,10 @@ public class Turno {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
+    @ManyToOne
+    Paciente paciente;
+
+    @ManyToOne
+    Odontologo odontologo;
+    LocalDate fecha;
 }
