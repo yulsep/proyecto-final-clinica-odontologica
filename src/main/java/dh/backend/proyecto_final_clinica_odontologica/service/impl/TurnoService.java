@@ -10,6 +10,9 @@ import dh.backend.clinicamvc.entity.Turno;
 import dh.backend.clinicamvc.repository.IOdontologoRepository;
 import dh.backend.clinicamvc.repository.IPacienteRepository;
 import dh.backend.clinicamvc.repository.ITurnoRepository;
+import dh.backend.proyecto_final_clinica_odontologica.entity.Odontologo;
+import dh.backend.proyecto_final_clinica_odontologica.entity.Paciente;
+import dh.backend.proyecto_final_clinica_odontologica.entity.Turno;
 import dh.backend.proyecto_final_clinica_odontologica.repository.IOdontologoRepository;
 import dh.backend.proyecto_final_clinica_odontologica.repository.IPacienteRepository;
 import dh.backend.proyecto_final_clinica_odontologica.repository.ITurnoRepository;
@@ -37,9 +40,9 @@ public class TurnoService implements ITurnoService {
     }
 
     @Override
-    public TurnoResponseDto registrar(TurnoRequestDto turnoRequestDto) {
-        Optional<Paciente> paciente = pacienteRepository.findById(turnoRequestDto.getPaciente_id());
-        Optional<Odontologo> odontologo = odontologoRepository.findById(turnoRequestDto.getOdontologo_id());
+    public Turno registrar(Turno turnoRequestDto) {
+        Optional<Paciente> paciente = pacienteRepository.findById(turnoRequestDto.getId());
+        Optional<Odontologo> odontologo = odontologoRepository.findById(turnoRequestDto.getId());
         Turno turnoARegistrar = new Turno();
         Turno turnoGuardado = null;
         TurnoResponseDto turnoADevolver = null;
@@ -99,10 +102,10 @@ public class TurnoService implements ITurnoService {
 
 
     // metodo que mapea turno en turnoResponseDto
-    private TurnoResponseDto mapToResponseDto(Turno turno){
-        TurnoResponseDto turnoResponseDto = modelMapper.map(turno, TurnoResponseDto.class);
-        turnoResponseDto.setOdontologo(modelMapper.map(turno.getOdontologo(), OdontologoResponseDto.class));
-        turnoResponseDto.setPaciente(modelMapper.map(turno.getPaciente(), PacienteResponseDto.class));
-        return  turnoResponseDto;
-    }
+    //private TurnoResponseDto mapToResponseDto(Turno turno){
+    //    TurnoResponseDto turnoResponseDto = modelMapper.map(turno, TurnoResponseDto.class);
+    //    turnoResponseDto.setOdontologo(modelMapper.map(turno.getOdontologo(), OdontologoResponseDto.class));
+    //    turnoResponseDto.setPaciente(modelMapper.map(turno.getPaciente(), PacienteResponseDto.class));
+    //    return  turnoResponseDto;
+    //}
 }
