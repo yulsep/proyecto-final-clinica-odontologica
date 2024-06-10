@@ -1,15 +1,5 @@
 package dh.backend.proyecto_final_clinica_odontologica.service.impl;
 
-import dh.backend.clinicamvc.Dto.request.TurnoRequestDto;
-import dh.backend.clinicamvc.Dto.response.OdontologoResponseDto;
-import dh.backend.clinicamvc.Dto.response.PacienteResponseDto;
-import dh.backend.clinicamvc.Dto.response.TurnoResponseDto;
-import dh.backend.clinicamvc.entity.Odontologo;
-import dh.backend.clinicamvc.entity.Paciente;
-import dh.backend.clinicamvc.entity.Turno;
-import dh.backend.clinicamvc.repository.IOdontologoRepository;
-import dh.backend.clinicamvc.repository.IPacienteRepository;
-import dh.backend.clinicamvc.repository.ITurnoRepository;
 import dh.backend.proyecto_final_clinica_odontologica.entity.Odontologo;
 import dh.backend.proyecto_final_clinica_odontologica.entity.Paciente;
 import dh.backend.proyecto_final_clinica_odontologica.entity.Turno;
@@ -45,43 +35,38 @@ public class TurnoService implements ITurnoService {
         Optional<Odontologo> odontologo = odontologoRepository.findById(turnoRequestDto.getId());
         Turno turnoARegistrar = new Turno();
         Turno turnoGuardado = null;
-        TurnoResponseDto turnoADevolver = null;
         if(paciente.isPresent() && odontologo.isPresent()){
             turnoARegistrar.setOdontologo(odontologo.get());
             turnoARegistrar.setPaciente(paciente.get());
             turnoARegistrar.setFecha(LocalDate.parse(turnoRequestDto.getFecha()));
             turnoGuardado = turnoRepository.save(turnoARegistrar);
 
-            turnoADevolver = mapToResponseDto(turnoGuardado);
         }
-        return turnoADevolver;
+        return turnoGuardado;
     }
 
     @Override
-    public TurnoResponseDto buscarPorId(Integer id) {
+    public Turno buscarPorId(Integer id) {
         Optional<Turno> turnoOptional = turnoRepository.findById(id);
         if(turnoOptional.isPresent()){
             Turno turnoEncontrado = turnoOptional.get();
-            TurnoResponseDto turnoADevolver = mapToResponseDto(turnoEncontrado);
-            return turnoADevolver;
+            return turnoEncontrado;
         }
         return null;
     }
 
     @Override
-    public List<TurnoResponseDto> buscarTodos() {
+    public List<Turno> buscarTodos() {
         List<Turno> turnos = turnoRepository.findAll();
-        List<TurnoResponseDto> turnosADevolver = new ArrayList<>();
-        TurnoResponseDto turnoAuxiliar = null;
+        List<Turno> turnosADevolver = new ArrayList<>();
         for(Turno turno: turnos){
-            turnoAuxiliar = mapToResponseDto(turno);
-            turnosADevolver.add(turnoAuxiliar);
+            turnosADevolver.add(turno);
         }
         return turnosADevolver;
     }
 
     @Override
-    public void actualizarTurno(Integer id, TurnoRequestDto turnoRequestDto) {
+    public void actualizarTurno(Integer id, Turno turnoRequestDto) {
         Optional<Paciente> paciente = pacienteRepository.findById(turnoRequestDto.getPaciente_id());
         Optional<Odontologo> odontologo = odontologoRepository.findById(turnoRequestDto.getOdontologo_id());
         Optional<Turno> turno = turnoRepository.findById(id);
@@ -100,12 +85,4 @@ public class TurnoService implements ITurnoService {
         turnoRepository.deleteById(id);
     }
 
-
-    // metodo que mapea turno en turnoResponseDto
-    //private TurnoResponseDto mapToResponseDto(Turno turno){
-    //    TurnoResponseDto turnoResponseDto = modelMapper.map(turno, TurnoResponseDto.class);
-    //    turnoResponseDto.setOdontologo(modelMapper.map(turno.getOdontologo(), OdontologoResponseDto.class));
-    //    turnoResponseDto.setPaciente(modelMapper.map(turno.getPaciente(), PacienteResponseDto.class));
-    //    return  turnoResponseDto;
-    //}
 }
