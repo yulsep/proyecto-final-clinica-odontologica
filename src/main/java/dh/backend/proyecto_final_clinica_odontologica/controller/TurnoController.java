@@ -1,7 +1,6 @@
 package dh.backend.proyecto_final_clinica_odontologica.controller;
 
-import dh.backend.proyecto_final_clinica_odontologica.Dto.request.TurnoRequestDto;
-import dh.backend.proyecto_final_clinica_odontologica.Dto.response.TurnoResponseDto;
+import dh.backend.proyecto_final_clinica_odontologica.entity.Turno;
 import dh.backend.proyecto_final_clinica_odontologica.service.ITurnoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +18,8 @@ public class TurnoController {
     }
 
     @PostMapping
-    public ResponseEntity<TurnoResponseDto> agregarTurno(@RequestBody TurnoRequestDto turno){
-        TurnoResponseDto turnoADevolver = turnoService.registrar(turno);
+        public ResponseEntity<Turno> agregarTurno(@RequestBody Turno turno){
+        Turno turnoADevolver = turnoService.registrar(turno);
         if(turnoADevolver==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         } else {
@@ -28,11 +27,11 @@ public class TurnoController {
         }
     }
     @GetMapping
-    public ResponseEntity<List<TurnoResponseDto>> buscarTodosTurnos(){
+    public ResponseEntity<List<Turno>> buscarTodosTurnos(){
         return ResponseEntity.ok(turnoService.buscarTodos());
     }
     @PutMapping("/{id}")
-    public ResponseEntity<String> modificarTurno(@PathVariable Integer id, @RequestBody TurnoRequestDto turno){
+    public ResponseEntity<String> modificarTurno(@PathVariable Integer id, @RequestBody Turno turno){
         turnoService.actualizarTurno(id, turno);
         return ResponseEntity.ok("Turno modificado");
     }
