@@ -10,7 +10,6 @@ import dh.backend.proyecto_final_clinica_odontologica.service.ITurnoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,18 +28,15 @@ public class TurnoService implements ITurnoService {
 
     @Override
     public Turno registrar(Turno turno) {
-        Optional<Paciente> paciente = pacienteRepository.findById(turno.getId());
-        Optional<Odontologo> odontologo = odontologoRepository.findById(turno.getId());
-        Turno turnoARegistrar = new Turno();
-        Turno turnoGuardado = null;
+        Optional<Paciente> paciente = pacienteRepository.findById(turno.getPaciente().getId());
+        Optional<Odontologo> odontologo = odontologoRepository.findById(turno.getOdontologo().getId());
         if(paciente.isPresent() && odontologo.isPresent()){
-            turnoARegistrar.setOdontologo(odontologo.get());
-            turnoARegistrar.setPaciente(paciente.get());
-            turnoARegistrar.setFecha(turno.getFecha());
-            turnoGuardado = turnoRepository.save(turnoARegistrar);
-
+            turno.setPaciente(paciente.get());
+            turno.setOdontologo(odontologo.get());
+            turno.setFecha(turno.getFecha());
+            return turnoRepository.save(turno);
         }
-        return turnoGuardado;
+        return null;
     }
 
     @Override
