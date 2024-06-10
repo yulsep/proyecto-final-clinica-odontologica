@@ -2,6 +2,8 @@ package dh.backend.proyecto_final_clinica_odontologica.service.impl;
 
 
 
+import dh.backend.proyecto_final_clinica_odontologica.entity.Odontologo;
+import dh.backend.proyecto_final_clinica_odontologica.repository.IOdontologoRepository;
 import dh.backend.proyecto_final_clinica_odontologica.service.IOdontologoService;
 import org.springframework.stereotype.Service;
 

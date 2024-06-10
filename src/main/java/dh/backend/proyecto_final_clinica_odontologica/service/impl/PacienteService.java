@@ -1,7 +1,8 @@
 package dh.backend.proyecto_final_clinica_odontologica.service.impl;
 
-import dh.backend.clinicamvc.entity.Paciente;
-import dh.backend.clinicamvc.repository.IPacienteRepository;
+
+import dh.backend.proyecto_final_clinica_odontologica.entity.Paciente;
+import dh.backend.proyecto_final_clinica_odontologica.repository.IPacienteRepository;
 import dh.backend.proyecto_final_clinica_odontologica.service.IPacienteService;
 import org.springframework.stereotype.Service;
 

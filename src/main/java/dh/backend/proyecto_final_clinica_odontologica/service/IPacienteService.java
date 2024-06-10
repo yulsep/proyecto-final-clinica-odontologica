@@ -1,6 +1,8 @@
 package dh.backend.proyecto_final_clinica_odontologica.service;
 
-import dh.backend.clinicamvc.entity.Paciente;
+
+
+import dh.backend.proyecto_final_clinica_odontologica.entity.Paciente;
 
 import java.util.List;
 import java.util.Optional;
