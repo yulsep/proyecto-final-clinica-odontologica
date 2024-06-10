@@ -20,25 +20,23 @@ public class TurnoService implements ITurnoService {
     private IOdontologoRepository odontologoRepository;
     private IPacienteRepository pacienteRepository;
     private ITurnoRepository turnoRepository;
-    private ModelMapper modelMapper;
 
     public TurnoService(IOdontologoRepository odontologoRepository, IPacienteRepository pacienteRepository, ITurnoRepository turnoRepository, ModelMapper modelMapper) {
         this.odontologoRepository = odontologoRepository;
         this.pacienteRepository = pacienteRepository;
         this.turnoRepository = turnoRepository;
-        this.modelMapper = modelMapper;
     }
 
     @Override
-    public Turno registrar(Turno turnoRequestDto) {
-        Optional<Paciente> paciente = pacienteRepository.findById(turnoRequestDto.getId());
-        Optional<Odontologo> odontologo = odontologoRepository.findById(turnoRequestDto.getId());
+    public Turno registrar(Turno turno) {
+        Optional<Paciente> paciente = pacienteRepository.findById(turno.getId());
+        Optional<Odontologo> odontologo = odontologoRepository.findById(turno.getId());
         Turno turnoARegistrar = new Turno();
         Turno turnoGuardado = null;
         if(paciente.isPresent() && odontologo.isPresent()){
             turnoARegistrar.setOdontologo(odontologo.get());
             turnoARegistrar.setPaciente(paciente.get());
-            turnoARegistrar.setFecha(LocalDate.parse(turnoRequestDto.getFecha()));
+            turnoARegistrar.setFecha(turno.getFecha());
             turnoGuardado = turnoRepository.save(turnoARegistrar);
 
         }
@@ -66,16 +64,16 @@ public class TurnoService implements ITurnoService {
     }
 
     @Override
-    public void actualizarTurno(Integer id, Turno turnoRequestDto) {
-        Optional<Paciente> paciente = pacienteRepository.findById(turnoRequestDto.getPaciente_id());
-        Optional<Odontologo> odontologo = odontologoRepository.findById(turnoRequestDto.getOdontologo_id());
+    public void actualizarTurno(Integer id, Turno turnoRequest) {
+        Optional<Paciente> paciente = pacienteRepository.findById(turnoRequest.getPaciente().getId());
+        Optional<Odontologo> odontologo = odontologoRepository.findById(turnoRequest.getOdontologo().getId());
         Optional<Turno> turno = turnoRepository.findById(id);
         Turno turnoAModificar = new Turno();
         if(paciente.isPresent() && odontologo.isPresent() && turno.isPresent()){
             turnoAModificar.setId(id);
             turnoAModificar.setOdontologo(odontologo.get());
             turnoAModificar.setPaciente(paciente.get());
-            turnoAModificar.setFecha(LocalDate.parse(turnoRequestDto.getFecha()));
+            turnoAModificar.setFecha(turnoRequest.getFecha());
             turnoRepository.save(turnoAModificar);
         }
     }
