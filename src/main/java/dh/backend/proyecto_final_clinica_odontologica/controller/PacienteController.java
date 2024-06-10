@@ -1,7 +1,7 @@
 package dh.backend.proyecto_final_clinica_odontologica.controller;
 
-import dh.backend.clinicamvc.entity.Paciente;
-import dh.backend.clinicamvc.service.IPacienteService;
+import dh.backend.proyecto_final_clinica_odontologica.entity.Paciente;
+import dh.backend.proyecto_final_clinica_odontologica.service.IPacienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

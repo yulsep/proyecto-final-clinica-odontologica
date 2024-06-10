@@ -1,9 +1,9 @@
 package dh.backend.proyecto_final_clinica_odontologica.controller;
 
-import dh.backend.clinicamvc.entity.Odontologo;
-import dh.backend.clinicamvc.entity.Paciente;
-import dh.backend.clinicamvc.service.IOdontologoService;
-import dh.backend.clinicamvc.service.IPacienteService;
+import dh.backend.proyecto_final_clinica_odontologica.entity.Odontologo;
+import dh.backend.proyecto_final_clinica_odontologica.entity.Paciente;
+import dh.backend.proyecto_final_clinica_odontologica.service.IOdontologoService;
+import dh.backend.proyecto_final_clinica_odontologica.service.IPacienteService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

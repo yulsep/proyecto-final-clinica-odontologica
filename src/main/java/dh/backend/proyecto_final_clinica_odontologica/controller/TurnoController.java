@@ -1,8 +1,8 @@
 package dh.backend.proyecto_final_clinica_odontologica.controller;
 
-import dh.backend.clinicamvc.Dto.request.TurnoRequestDto;
-import dh.backend.clinicamvc.Dto.response.TurnoResponseDto;
-import dh.backend.clinicamvc.service.ITurnoService;
+import dh.backend.proyecto_final_clinica_odontologica.Dto.request.TurnoRequestDto;
+import dh.backend.proyecto_final_clinica_odontologica.Dto.response.TurnoResponseDto;
+import dh.backend.proyecto_final_clinica_odontologica.service.ITurnoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
