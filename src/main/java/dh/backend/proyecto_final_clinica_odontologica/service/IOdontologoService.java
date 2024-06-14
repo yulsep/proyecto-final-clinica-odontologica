@@ -1,6 +1,7 @@
 package dh.backend.proyecto_final_clinica_odontologica.service;
 
 import dh.backend.proyecto_final_clinica_odontologica.entity.Odontologo;
+import dh.backend.proyecto_final_clinica_odontologica.exception.ResourceNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,5 +13,5 @@ public interface IOdontologoService {
     List<Odontologo> buscarTodosOdontologos();
 
     void modificarOdontologo(Odontologo odontologo);
-    void eliminarOdontologo(Integer id);
+    void eliminarOdontologo(Integer id) throws ResourceNotFoundException;
 }

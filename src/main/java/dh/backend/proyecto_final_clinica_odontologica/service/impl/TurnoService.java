@@ -3,6 +3,8 @@ package dh.backend.proyecto_final_clinica_odontologica.service.impl;
 import dh.backend.proyecto_final_clinica_odontologica.entity.Odontologo;
 import dh.backend.proyecto_final_clinica_odontologica.entity.Paciente;
 import dh.backend.proyecto_final_clinica_odontologica.entity.Turno;
+import dh.backend.proyecto_final_clinica_odontologica.exception.BadRequestException;
+import dh.backend.proyecto_final_clinica_odontologica.exception.ResourceNotFoundException;
 import dh.backend.proyecto_final_clinica_odontologica.repository.IOdontologoRepository;
 import dh.backend.proyecto_final_clinica_odontologica.repository.IPacienteRepository;
 import dh.backend.proyecto_final_clinica_odontologica.repository.ITurnoRepository;
@@ -27,7 +29,7 @@ public class TurnoService implements ITurnoService {
     }
 
     @Override
-    public Turno registrar(Turno turno) {
+    public Turno registrar(Turno turno) throws BadRequestException {
         Optional<Paciente> paciente = pacienteRepository.findById(turno.getPaciente().getId());
         Optional<Odontologo> odontologo = odontologoRepository.findById(turno.getOdontologo().getId());
         if(paciente.isPresent() && odontologo.isPresent()){
@@ -35,6 +37,13 @@ public class TurnoService implements ITurnoService {
             turno.setOdontologo(odontologo.get());
             turno.setFecha(turno.getFecha());
             return turnoRepository.save(turno);
+        } else {
+            if (!paciente.isPresent()) {
+                throw new BadRequestException("{\"message\": \"El paciente con ID " + turno.getPaciente().getId() + " no se encuentra.\"}");
+            }
+            if (!odontologo.isPresent()) {
+                throw new BadRequestException("{\"message\": \"El odontólogo con ID " + turno.getOdontologo().getId() + " no se encuentra.\"}");
+            }
         }
         return null;
     }
@@ -60,7 +69,7 @@ public class TurnoService implements ITurnoService {
     }
 
     @Override
-    public void actualizarTurno(Integer id, Turno turnoRequest) {
+    public void actualizarTurno(Integer id, Turno turnoRequest) throws BadRequestException {
         Optional<Paciente> paciente = pacienteRepository.findById(turnoRequest.getPaciente().getId());
         Optional<Odontologo> odontologo = odontologoRepository.findById(turnoRequest.getOdontologo().getId());
         Optional<Turno> turno = turnoRepository.findById(id);
@@ -71,12 +80,28 @@ public class TurnoService implements ITurnoService {
             turnoAModificar.setPaciente(paciente.get());
             turnoAModificar.setFecha(turnoRequest.getFecha());
             turnoRepository.save(turnoAModificar);
+        } else {
+            if (!paciente.isPresent()) {
+                throw new BadRequestException("{\"message\": \"El paciente con ID " + turnoRequest.getPaciente().getId() + " no se encuentra.\"}");
+            }
+            if (!odontologo.isPresent()) {
+                throw new BadRequestException("{\"message\": \"El odontólogo con ID " + turnoRequest.getOdontologo().getId() + " no se encuentra.\"}");
+            }
+            if (!turno.isPresent()) {
+                throw new BadRequestException("{\"message\": \"El turno con ID " + id + " no se encuentra.\"}");
+            }
         }
     }
 
     @Override
-    public void eliminarTurno(Integer id) {
-        turnoRepository.deleteById(id);
+    public void eliminarTurno(Integer id) throws ResourceNotFoundException {
+        Optional<Turno> turnoOptional = Optional.ofNullable(buscarPorId(id));
+
+        if(turnoOptional.isPresent()){
+            turnoRepository.deleteById(id);
+        }
+        else
+            throw new ResourceNotFoundException("{\"message\": \"turno no encontrado\"}");
     }
 
 }

@@ -2,6 +2,7 @@ package dh.backend.proyecto_final_clinica_odontologica.service.impl;
 
 
 import dh.backend.proyecto_final_clinica_odontologica.entity.Paciente;
+import dh.backend.proyecto_final_clinica_odontologica.exception.ResourceNotFoundException;
 import dh.backend.proyecto_final_clinica_odontologica.repository.IPacienteRepository;
 import dh.backend.proyecto_final_clinica_odontologica.service.IPacienteService;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,13 @@ public class PacienteService implements IPacienteService {
     }
 
     @Override
-    public void eliminarPaciente(Integer id) {
-        pacienteRepository.deleteById(id);
+    public void eliminarPaciente(Integer id) throws ResourceNotFoundException {
+
+        Optional<Paciente> pacienteOptional = buscarPorId(id);
+        if (pacienteOptional.isPresent()) {
+            pacienteRepository.deleteById(id);
+        }
+        else
+            throw new ResourceNotFoundException("{\"message\": \"paciente no encontrado\"}");
     }
 }

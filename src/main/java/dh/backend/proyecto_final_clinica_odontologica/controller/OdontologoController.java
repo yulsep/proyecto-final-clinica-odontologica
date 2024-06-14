@@ -2,6 +2,7 @@ package dh.backend.proyecto_final_clinica_odontologica.controller;
 
 
 import dh.backend.proyecto_final_clinica_odontologica.entity.Odontologo;
+import dh.backend.proyecto_final_clinica_odontologica.exception.ResourceNotFoundException;
 import dh.backend.proyecto_final_clinica_odontologica.service.impl.OdontologoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,14 +47,10 @@ public class OdontologoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> eliminarOdontologo(@PathVariable Integer id){
-        Optional<Odontologo> odontologo = odontologoService.buscarUnOdontologo(id);
-        if(odontologo.isPresent()){
+    public ResponseEntity<String> eliminarOdontologo(@PathVariable Integer id) throws ResourceNotFoundException {
             odontologoService.eliminarOdontologo(id);
             return ResponseEntity.ok("{\"message\": \"odontologo eliminado\"}");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+
     }
 
     @GetMapping
