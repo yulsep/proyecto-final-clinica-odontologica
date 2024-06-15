@@ -6,6 +6,8 @@ import dh.backend.proyecto_final_clinica_odontologica.entity.Odontologo;
 import dh.backend.proyecto_final_clinica_odontologica.exception.ResourceNotFoundException;
 import dh.backend.proyecto_final_clinica_odontologica.repository.IOdontologoRepository;
 import dh.backend.proyecto_final_clinica_odontologica.service.IOdontologoService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.Optional;
 
 @Service
 public class OdontologoService implements IOdontologoService {
+
+    private static final Logger logger =  LoggerFactory.getLogger(OdontologoService.class);
 
     private IOdontologoRepository odontologoRepository;
 
@@ -43,6 +47,7 @@ public class OdontologoService implements IOdontologoService {
             odontologoRepository.deleteById(id);
         }
         else
+            logger.error("eliminando un odontologo no existe");
             throw new ResourceNotFoundException("{\"message\": \"odontologo no encontrado\"}");
 
     }

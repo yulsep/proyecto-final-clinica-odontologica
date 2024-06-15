@@ -10,6 +10,8 @@ import dh.backend.proyecto_final_clinica_odontologica.repository.IPacienteReposi
 import dh.backend.proyecto_final_clinica_odontologica.repository.ITurnoRepository;
 import dh.backend.proyecto_final_clinica_odontologica.service.ITurnoService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.Optional;
 
 @Service
 public class TurnoService implements ITurnoService {
+    private static final Logger logger =  LoggerFactory.getLogger(OdontologoService.class);
     private IOdontologoRepository odontologoRepository;
     private IPacienteRepository pacienteRepository;
     private ITurnoRepository turnoRepository;
@@ -39,9 +42,11 @@ public class TurnoService implements ITurnoService {
             return turnoRepository.save(turno);
         } else {
             if (!paciente.isPresent()) {
+                logger.error("Paciente no encontrado");
                 throw new BadRequestException("{\"message\": \"El paciente con ID " + turno.getPaciente().getId() + " no se encuentra.\"}");
             }
             if (!odontologo.isPresent()) {
+                logger.error("Odontologo no encontrado");
                 throw new BadRequestException("{\"message\": \"El odontólogo con ID " + turno.getOdontologo().getId() + " no se encuentra.\"}");
             }
         }
@@ -82,12 +87,15 @@ public class TurnoService implements ITurnoService {
             turnoRepository.save(turnoAModificar);
         } else {
             if (!paciente.isPresent()) {
+                logger.error("Paciente no encontrado");
                 throw new BadRequestException("{\"message\": \"El paciente con ID " + turnoRequest.getPaciente().getId() + " no se encuentra.\"}");
             }
             if (!odontologo.isPresent()) {
+                logger.error("Odontologo no encontrado");
                 throw new BadRequestException("{\"message\": \"El odontólogo con ID " + turnoRequest.getOdontologo().getId() + " no se encuentra.\"}");
             }
             if (!turno.isPresent()) {
+                logger.error("Turno no encontrado");
                 throw new BadRequestException("{\"message\": \"El turno con ID " + id + " no se encuentra.\"}");
             }
         }
@@ -101,6 +109,7 @@ public class TurnoService implements ITurnoService {
             turnoRepository.deleteById(id);
         }
         else
+            logger.error("Turno no encontrado");
             throw new ResourceNotFoundException("{\"message\": \"turno no encontrado\"}");
     }
 
