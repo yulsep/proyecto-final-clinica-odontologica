@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -108,9 +109,12 @@ public class TurnoService implements ITurnoService {
         if(turnoOptional.isPresent()){
             turnoRepository.deleteById(id);
         }
-        else
-            logger.error("Turno no encontrado");
-            throw new ResourceNotFoundException("{\"message\": \"turno no encontrado\"}");
+        else throw new ResourceNotFoundException("{\"message\": \"turno no encontrado\"}");
+    }
+
+    @Override
+    public List<Turno> buscarTurnoEntreFechas(LocalDate startDate, LocalDate endDate) {
+        return List.of();
     }
 
 }

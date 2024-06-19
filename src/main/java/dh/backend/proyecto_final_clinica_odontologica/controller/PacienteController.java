@@ -1,5 +1,6 @@
 package dh.backend.proyecto_final_clinica_odontologica.controller;
 
+import dh.backend.proyecto_final_clinica_odontologica.entity.Odontologo;
 import dh.backend.proyecto_final_clinica_odontologica.entity.Paciente;
 import dh.backend.proyecto_final_clinica_odontologica.exception.ResourceNotFoundException;
 import dh.backend.proyecto_final_clinica_odontologica.service.IPacienteService;
@@ -9,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -63,6 +66,27 @@ public class PacienteController {
         logger.info("Borrando Paciente");
         pacienteService.eliminarPaciente(id);
         return ResponseEntity.ok("{\"message\": \"paciente eliminado\"}");
+    }
+
+    @GetMapping("/apellido/{apellido}")
+    public ResponseEntity<List<Paciente>> buscarPorApellido(@PathVariable String apellido){
+        List<Paciente> listaPacientes =pacienteService.buscarPorApellido(apellido);
+        if(listaPacientes.size()>0){
+            return ResponseEntity.ok(listaPacientes);
+        } else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
+    @GetMapping("/dni/{dni}")
+    public ResponseEntity<List<Paciente>> buscarPorDni(@PathVariable String dni){
+        return ResponseEntity.ok(pacienteService.buscarPorDni(dni));
+    }
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    @GetMapping("/fecha/{fecha}")
+    public ResponseEntity<List<Paciente>> buscarPorFechaIngreso(@RequestParam String fecha){
+        LocalDate fechaIngreso = LocalDate.parse(fecha, formatter);
+        return ResponseEntity.ok(pacienteService.buscarPorFechaIngreso(fechaIngreso));
     }
 
 }

@@ -45,10 +45,24 @@ public class OdontologoService implements IOdontologoService {
         Optional<Odontologo> odontologoOptional = buscarUnOdontologo(id);
         if(odontologoOptional.isPresent()){
             odontologoRepository.deleteById(id);
+            logger.info( "El odontologo se ha eliminado correctamente");
         }
-        else
-            logger.error("eliminando un odontologo no existe");
-            throw new ResourceNotFoundException("{\"message\": \"odontologo no encontrado\"}");
+        else throw new ResourceNotFoundException("{\"message\": \"odontologo no encontrado\"}");
 
+    }
+
+    @Override
+    public List<Odontologo> buscarPorApellido(String apellido) {
+        return odontologoRepository.buscarPorApellido(apellido);
+    }
+
+    @Override
+    public List<Odontologo> buscarPorNombre(String nombre) {
+        return odontologoRepository.findByNombreLike(nombre);
+    }
+
+    @Override
+    public List<Odontologo> buscarPorNroMatricula(String nroMatricula) {
+        return odontologoRepository.findByNroMatricula(nroMatricula);
     }
 }

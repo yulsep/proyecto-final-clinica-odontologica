@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,8 +48,21 @@ public class PacienteService implements IPacienteService {
         if (pacienteOptional.isPresent()) {
             pacienteRepository.deleteById(id);
         }
-        else
-            logger.error("Esta tratando de eliminar un paciente que no existe");
-            throw new ResourceNotFoundException("{\"message\": \"paciente no encontrado\"}");
+        else throw new ResourceNotFoundException("{\"message\": \"paciente no encontrado\"}");
+    }
+
+    @Override
+    public List<Paciente> buscarPorApellido(String apellido) {
+        return pacienteRepository.findAllByApellido(apellido);
+    }
+
+    @Override
+    public List<Paciente> buscarPorDni(String dni) {
+        return pacienteRepository.findAllByDni(dni);
+    }
+
+    @Override
+    public List<Paciente> buscarPorFechaIngreso(LocalDate fechaIngreso) {
+        return pacienteRepository.findAllByFechaIngresoAfter(fechaIngreso);
     }
 }

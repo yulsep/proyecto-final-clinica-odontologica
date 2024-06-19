@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @RestController
@@ -46,6 +48,15 @@ public class TurnoController {
         logger.info("Eliminando Turno");
         turnoService.eliminarTurno(id);
         return ResponseEntity.ok("{\"message\": \"turno eliminado\"}");
+    }
+
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    @GetMapping("/fechas")
+    public ResponseEntity<List<Turno>> buscarEntreFechas(@RequestParam String inicio, @RequestParam String fin){
+        LocalDate fechaInicio = LocalDate.parse(inicio, formatter);
+        LocalDate fechaFinal = LocalDate.parse(fin, formatter);
+
+        return ResponseEntity.ok(turnoService.buscarTurnoEntreFechas(fechaInicio, fechaFinal));
     }
 
 }
